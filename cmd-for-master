@@ -38,46 +38,4 @@ exclude=kubelet kubeadm kubectl
 [root@ip-172-31-46-127 docker]# systemctl status kubelet
 [root@ip-172-31-46-127 docker]# kubectl get nodes
 
-document=https://docs.google.com/document/d/1NXtvGXye2QqFdBcg2dazT8o2lVNLqqH3cmRx77TJjeg/edit?usp=sharing
-
-slave
-[root@ip-172-31-46-127 ~]# yum install docker -y
-[root@ip-172-31-46-127 ~]# systemctl enable docker --now
-[root@ip-172-31-46-127 ~]# docker info
-[root@ip-172-31-46-127 ~]# vi /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-exclude=kubelet kubeadm kubectl
-[root@ip-172-31-46-127 ~]# yum repolist
-[root@ip-172-31-46-127 ~]# yum install kubeadm --disableexcludes=kubernetes
-[root@ip-172-31-46-127 ~]# rpm -q kubelet
-[root@ip-172-31-46-127 ~]# systemctl enable kubelet --now
-[root@ip-172-31-46-127 ~]# systemctl status  kubelet
-[root@ip-172-31-46-127 ~]# kubeadm config images pull
-[root@ip-172-31-46-127 ~]# kubeadm init --help
-
-[root@ip-172-31-46-127 docker]# cd /etc/docker
-[root@ip-172-31-46-127 docker]# vi daemon.json
-{
-  "exec-opts": ["native.cgroupdriver=systemd"]
-}
-[root@ip-172-31-46-127 docker]# systemctl restart docker
-[root@ip-172-31-46-127 docker]# docker info | grep Driver
-[root@ip-172-31-46-127 docker]# yum install iproute-tc
-[root@ip-172-31-46-127 docker]# tc
-[root@ip-172-31-7-104 docker]# vim  /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-[root@ip-172-31-7-104 docker]# sysctl --system
-master
-[root@ip-172-31-46-127 ~]# kubeadm token create --print-join-command
-kubeadm join 172.31.46.127:6443 --token vvjoik.nh7ailygjtu54gac     --discovery-token-ca-cert-hash sha256:229234aad8ba66eed2223850bb88338bee218df1b05ef309638249cec31f882c
-slave
-[root@ip-172-31-7-104 docker]# kubeadm join 172.31.46.127:6443 --token vvjoik.nh7ailygjtu54gac     --discovery-token-ca-cert-hash sha256:229234aad8ba66eed2223850bb88338bee218df1b05ef309638249cec31f882c
-master
-kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+document=https://docs.google.com/document/d/1NXtvGXye2QqFdBcg2dazT8o2lVNLqqH3cmRx77TJjeg/edit?usp=sharin
